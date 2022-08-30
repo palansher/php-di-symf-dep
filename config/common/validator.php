@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Validator\ContainerConstraintValidatorFactory;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -15,6 +16,7 @@ return [
             ->enableAnnotationMapping()
             ->setTranslator($translator)
             ->setTranslationDomain('validators')
+            ->setConstraintValidatorFactory(new ContainerConstraintValidatorFactory($container))
             ->getValidator();
     },
 ];
