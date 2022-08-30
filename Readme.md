@@ -72,3 +72,7 @@ php public/index.php "+7(456)789"
 
 Последний вывод сгенерирован самими PhoneNumAvailableValidator
 
+## Решение
+
+[Решение](https://github.com/palansher/php-di-symf-dep/pull/1) предоставил небезызвестный [Дмитрий Елисеев](https://deworker.pro/blog) - отличный программист и преподаватель
+
