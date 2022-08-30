@@ -21,7 +21,7 @@ class PhoneNumAvailableValidator extends ConstraintValidator
 
 // private DriverRepository $driverRepo
 public function __construct(
-    // private DriverRepository $driverRepo
+    private DriverRepository $driverRepo
     )
 {
 }
