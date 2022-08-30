@@ -70,5 +70,5 @@ php public/index.php "+7(456)789"
 >+7(456)789-Object(Gt\TestDi\DriverFormDtoDriver).phoneNumber:
     Длина номера телефона "+7(456)789-" менее 15 символов
 
-
+Последний вывод сгенерирован самими PhoneNumAvailableValidator
 
