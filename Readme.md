@@ -56,7 +56,7 @@ php public/index.php "+7(456)789-4567"
 ```
 вывод из $exception->getViolations():
 
->пусто
+>пусто - проверка пройдена
 
 ```
 php public/index.php null
