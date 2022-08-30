@@ -10,7 +10,7 @@
 
 ### Проблема
 
-Кастомный валидатор PhoneNumAvailableValidator для  PhoneNumAvailable работает, пока в его констуктор не передать  зависимость от PHP-DI! 
+Кастомный валидатор PhoneNumAvailableValidator (extends Symfony\Component\Validator\ConstraintValidator) для  PhoneNumAvailable работает, пока в его констуктор не передать  зависимость от PHP-DI! 
 При этом, говорит что зависимости не подтягиваются:
 
 ```
