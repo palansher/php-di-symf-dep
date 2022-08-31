@@ -19,15 +19,25 @@ class PhoneNumAvailable extends Constraint
     public string $mode;
 
     /**
-     * @param string $mode
-     * @param array<array-key, string>|null $groups
-     * @param mixed $payload
-     */
+    * @param ?int $driverId
+    * @param string $mode
+    * @param array<array-key, string>|null $groups
+    * @param mixed $payload
+    */
     #[HasNamedArguments]
-    public function __construct(string $mode='loose', array $groups = null, mixed $payload = null)
+    public function __construct(
+        public ?int $driverId,
+        string $mode='loose',
+        array $groups = null,
+        mixed $payload = null
+    )
     {
-        parent::__construct([], $groups, $payload);
+        parent::__construct([
+            ],
+            $groups, $payload
+        );
 
         $this->mode = $mode;
+        // $this->driverId = $driverId;
     }
 }

@@ -8,8 +8,11 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
-use Gt\TestDi\DriverRepository;
+use Gt\Driver\DriverRepository;
+use Gt\Infrast\Log\CommonErrorLogger;
 use Gt\Driver\Driver;
+
+use function Gt\mydump;
 
 /**
  * Проверяет занятость номера телефона
@@ -17,59 +20,61 @@ use Gt\Driver\Driver;
  */
 class PhoneNumAvailableValidator extends ConstraintValidator
 {
-    
-
-// private DriverRepository $driverRepo
-public function __construct(
-    private DriverRepository $driverRepo
-    )
-{
-}
-
-    public function validate(mixed $value, Constraint $constraint): void
-    {
-        
-        if (!$constraint instanceof PhoneNumAvailable) {
-            throw new UnexpectedTypeException($constraint, PhoneNumAvailable::class);
-        }
-
-        
-
-        // custom constraints should ignore null and empty values to allow
-        // other constraints (NotBlank, NotNull, etc.) to take care of that
-        if (null === $value || '' === $value) {
-            return;
-        }
-
-        if (!is_string($value)) {
-            // throw this exception if your validator cannot handle the passed type so that it can be marked as invalid
-            throw new UnexpectedValueException($value, 'string');
-
-            // separate multiple types using pipes
-            // throw new UnexpectedValueException($value, 'string|int');
-        }
-
-        // access your configuration options like this:
-        if ('strict' === $constraint->mode) {
-            // ...
-        }
-
-        
-        if (\strlen($value) <15) {
-            // the argument must be a string or an object implementing __toString()
-            $this->context->buildViolation("Длина номера телефона \"{{ string }}\" менее 18 символов")
-                ->setParameter('{{ string }}', $value)
-                ->addViolation();
-        }
-
-        // if (($driver=$this->driverRepo->findByPhone(trim($value))) !== null) {
-        //     // the argument must be a string or an object implementing __toString()
-        //     $this->context->buildViolation("Телефон \"{{ string }}\" занят водителем {{ driverFIO }} с ID {{ driverId }}")
-        //         ->setParameter('{{ string }}', $value)
-        //         ->setParameter('{{ driverId }}', (string)$driver->id)
-        //         ->setParameter('{{ driverFIO }}', $driver->getDriverFIO())
-        //         ->setParameter('{{ driverLink }}', '{{href}}'.'?route=driver&id='.$driver->id)
-        //         ->addViolation();
-        // }
+    // private DriverRepository $driverRepo
+    public function __construct(
+        // private DriverRepository $driverRepo,
+        // private CommonErrorLogger $logger,
+    ) {
     }
+
+        public function validate(mixed $value, Constraint $constraint): void
+        {
+            if (!$constraint instanceof PhoneNumAvailable) {
+                throw new UnexpectedTypeException($constraint, PhoneNumAvailable::class);
+            }
+
+            // custom constraints should ignore null and empty values to allow
+            // other constraints (NotBlank, NotNull, etc.) to take care of that
+            if (null === $value || '' === $value) {
+                return;
+            }
+
+            if (!is_string($value)) {
+                // throw this exception if your validator cannot handle the passed type so that it can be marked as invalid
+                throw new UnexpectedValueException($value, 'string');
+
+                // separate multiple types using pipes
+                // throw new UnexpectedValueException($value, 'string|int');
+            }
+
+            // access your configuration options like this:
+            if ('strict' === $constraint->mode) {
+                // ...
+            }
+
+            if (\strlen($value) <18) {
+                // the argument must be a string or an object implementing __toString()
+                $this->context->buildViolation("Номера телефона \"{{ string }}\" слишком короткий")
+                    ->setParameter('{{ string }}', $value)
+                    ->addViolation();
+            }
+            $formDriverId=$constraint->driverId;
+            // $this->logger->debug(mydump($formDriverId));
+            // $driverFoundByPhone=$this->driverRepo->findByPhone(trim($value));
+            // $this->logger->debug(mydump($driverFoundByPhone));
+            // return;
+            // if ($formDriverId !== null) {
+            //     // the argument must be a string or an object implementing __toString()
+            //     $this->context->buildViolation(
+            //         'Телефон {{ string }} занят водителем '
+            //         . "<a href=\"?route=driver&id={$driverFoundByPhone->id}\" target=\"_blank\">{{ driverFIO }}</a>"
+            //         . " с ID {{ driverId }}"
+            //     )
+            //         ->setParameter('{{ string }}', $value)
+            //         ->setParameter('{{ driverId }}', (string)$driverFoundByPhone->id)
+            //         ->setParameter('{{ driverFIO }}', $driverFoundByPhone->getDriverFIO())
+            //         ->setParameter('{{ driverLink }}', '?route=driver&id='.$driverFoundByPhone->id)
+            //         ->addViolation();
+            // }
+        }
 }
